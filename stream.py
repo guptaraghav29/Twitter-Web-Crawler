@@ -14,7 +14,7 @@ stream_rules: list[dict] = None
 config = dotenv_values(".env")
 bearer_token = config["BEARER_TOKEN"]
 FILE_PREFIX = config["FILE_PREFIX"]
-TWEETS_IN_FILE = config["TWEETS_IN_FILE"]
+TWEETS_IN_FILE = int(config["TWEETS_IN_FILE"])
 
 # Load stream rules
 with open("stream_rules.json") as f:
