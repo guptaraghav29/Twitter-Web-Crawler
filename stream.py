@@ -120,6 +120,9 @@ def rule_in_list(rule: tweepy.StreamRule, list: list[tweepy.StreamRule]) -> bool
 
 file_rules = [ tweepy.StreamRule(stream_rule["rule"], stream_rule["tag"]) for stream_rule in stream_rules ]
 current_rules: list[tweepy.StreamRule] = streaming_client.get_rules().data
+if current_rules is None:
+    current_rules = []
+
 add_rules = [rule for rule in file_rules if not rule_in_list(rule, current_rules) ]
 remove_rules = [rule for rule in current_rules if not rule_in_list(rule, file_rules)]
 
