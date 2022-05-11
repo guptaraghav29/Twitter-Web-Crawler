@@ -3,8 +3,8 @@ import time
 import tweepy
 from dotenv import dotenv_values
 import json
-
 from typing import List, Dict
+from os.path import exists as file_exists, getsize as file_size
 
 # Globals
 file_num: int = 0
@@ -17,6 +17,12 @@ config = dotenv_values(".env")
 bearer_token = config["BEARER_TOKEN"]
 FILE_PREFIX = config["FILE_PREFIX"]
 TWEETS_IN_FILE = int(config["TWEETS_IN_FILE"])
+
+# Check if file with prefix exists to prevent overwriting
+if file_exists(f"{FILE_PREFIX}{file_num}.json"):
+    print(f"ERROR: Files with the prefix '{FILE_PREFIX}' already exist and would be overwritten! " + 
+          "Please move or delete those files and re-run the program!")
+    exit(1)
 
 # Load stream rules
 with open("stream_rules.json") as f:
@@ -187,6 +193,13 @@ def tweet_stream_metrics():
     print(f"Created {file_num} files to store the tweets!")
     if file_num > 0:
         print(f"A file to store the tweets was created about every {seconds_elapsed / file_num} seconds!")
+        # File sizes are in bytes
+        file_sizes = [ file_size(f"{FILE_PREFIX}{f_num}.json") for f_num in range(file_num) ]
+        # Get total data size in MB (1 mil bytes in 1 MB)
+        total_data_size = sum(file_sizes) / 1000000.0
+        print("Total Data Size Collected: " + "{:.2f}".format(total_data_size) + " MB")
+        print("Average Data Per File: " + "{:.2f}".format(total_data_size / len(file_sizes)) + " MB")
+        
 
 tweet_stream_metrics()
 
