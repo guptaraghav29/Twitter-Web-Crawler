@@ -4,11 +4,13 @@ import tweepy
 from dotenv import dotenv_values
 import json
 
+from typing import List, Dict
+
 # Globals
 file_num: int = 0
-streamed_tweets: list[dict] = []
+streamed_tweets: List[Dict] = []
 total_tweets = 0
-stream_rules: list[dict] = None
+stream_rules: List[Dict] = None
 
 # Load .env file
 config = dotenv_values(".env")
@@ -21,7 +23,7 @@ with open("stream_rules.json") as f:
     stream_rules = json.load(f)
 
 # Validate stream rules
-def filter_stream_rules(stream_rule: dict) -> bool:
+def filter_stream_rules(stream_rule: Dict) -> bool:
     tag: str = stream_rule["tag"]
     rule: str = stream_rule["rule"]
 
@@ -111,7 +113,7 @@ class TweetStorer(tweepy.StreamingClient):
 streaming_client = TweetStorer(bearer_token, wait_on_rate_limit=True)
 
 # Modify the stream rules on the streaming client
-def rule_in_list(rule: tweepy.StreamRule, list: list[tweepy.StreamRule]) -> bool:
+def rule_in_list(rule: tweepy.StreamRule, list: List[tweepy.StreamRule]) -> bool:
     for curr_rule in list:
         if rule.value == curr_rule.value:
             return True 
@@ -119,7 +121,7 @@ def rule_in_list(rule: tweepy.StreamRule, list: list[tweepy.StreamRule]) -> bool
     return False
 
 file_rules = [ tweepy.StreamRule(stream_rule["rule"], stream_rule["tag"]) for stream_rule in stream_rules ]
-current_rules: list[tweepy.StreamRule] = streaming_client.get_rules().data
+current_rules: List[tweepy.StreamRule] = streaming_client.get_rules().data
 if current_rules is None:
     current_rules = []
 
