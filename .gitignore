@@ -1,6 +1,0 @@
-# Ignore Python Virtual Environments
-.venv
-# Ignore .ENV files
-.env
-# Ignore actual tweets
-tweets/
