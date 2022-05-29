@@ -9,7 +9,7 @@
     },
     {
         "tag": "marvel",
-        "rule": "(#marvel OR #mcu OR marvel OR mcu OR #Marvel OR #StanLee) -is:retweet lang:en"
+        "rule": "(#marvel OR #mcu OR marvel OR mcu OR Marvel OR #Marvel OR #StanLee OR #MarvelComics ) -is:retweet lang:en"
     },
     {
         "tag": "ironman",
@@ -17,7 +17,7 @@
     },
     {
         "tag": "spiderman",
-        "rule": "(#spiderman OR #SpiderMan OR #NoWayHome OR #FarFromHome OR \"peter parker\" OR #peterparker OR #PeterParker OR \"Spider-Man\" OR \"spider-man\") -is:retweet lang:en"
+        "rule": "(#spiderman OR #MilesMorales OR #MaryJaneWatson OR #NedLeeds OR #AuntMay OR #UncleBen OR #GwenStacy OR #SpiderMan OR #NoWayHome OR #FarFromHome OR #SpiderManHomecoming OR #IntoTheSpiderverse OR #SpidermanAcrossTheSpiderverse OR #TheAmazingSpiderman OR \"peter parker\" OR #peterparker OR #PeterParker OR \"Spider-Man\" OR \"spider-man\") -is:retweet lang:en"
     },
     {
         "tag": "captainamerica",
@@ -25,10 +25,34 @@
     },
     {
         "tag": "avengers",
-        "rule": "(#avengers OR #Avengers OR avengers OR #AvengersEndgame OR #Avengers OR #AvengersInfinityWar) -is:retweet lang:en"
+        "rule": "(#avengers OR #Avengers OR avengers OR #AvengersEndgame OR #Avengers OR #AvengersInfinityWar OR #Thanos OR thanos) -is:retweet lang:en"
     },
     {
         "tag": "wandavision",
         "rule": "(\"Wanda Maximoff\" OR #Wanda OR #ScarletWitch OR #WandaVision) -is:retweet lang:en"
+    },
+    {
+        "tag": "thor",
+        "rule": "(\"Thor\" OR #thor OR #Thor OR #ThortheDarkWorld OR #ThorRagnarok OR #ThorLoveandThunder OR #LoveandThunder OR #ThorIsBack OR #Loki OR #JaneFoster OR #Thor4 OR #ThorJane ) -is:retweet lang:en"
+    },
+    {
+        "tag": "blackpanther",
+        "rule": "(#BlackPanther OR #WakandaForever OR #Wakanda OR #ChadwickBoseman OR #BlackPanther2 OR #Killmonger) -is:retweet lang:en"
+    },
+    {
+        "tag": "deadpool",
+        "rule": "(\"deadpool\" OR #Deadpool OR #Deadpool2) -is:retweet lang:en"
+    },
+    {
+        "tag": "netflixmcu",
+        "rule": "(\"Jessica Jones\" OR \"Matt Murdock\" OR #JessicaJones OR #Daredevil OR #MattMurdock OR #LukeCage OR #IronFist OR #TheDefenders) -is:retweet lang:en"
+    },
+    {
+        "tag": "hulk",
+        "rule": "(\"She-Hulk\" OR \"Hulk\" OR #Hulk OR #SheHulk OR #SheHulkAttorneyAtLaw OR #BruceBanner OR #HulkSmash) -is:retweet lang:en"
+    },
+    {
+        "tag": "misc",
+        "rule": "(#Xmen OR #FantasticFour OR #Antman OR #GuardiansOfTheGalaxy OR #GuardiansOfTheGalaxyVol1 OR #GuardiansOfTheGalaxyVol2 OR #BlackWidow OR #Hawkeye OR #ClintBarton OR #Wolverine OR #ReedRichards OR #ProfessorX OR #Inhumans OR #AgentCarter OR #AgentsOfShield) -is:retweet lang:en"
     }
 ]
