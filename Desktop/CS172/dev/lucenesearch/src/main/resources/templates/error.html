@@ -1,0 +1,16 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Error Page</title>
+</head>
+<body>
+
+<div class="container">
+
+    <h1 th:if="!${errorMessage}">404 - Page does not exist</h1>
+    <a href="home.html" th:href="@{/home}">Back to Home Page</a>
+
+</div>
+
+</body>
+</html>
