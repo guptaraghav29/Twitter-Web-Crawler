@@ -253,8 +253,10 @@ public class LuceneFileIndexBuilderImpl implements LuceneFileIndexBuilder {
 			int docId = sd.doc;
 			Document d = searcher.doc(docId);
 			String device = d.get("device");
+			String text = d.get("text");
 			/* x */
-			System.out.printf("%3d %4.2f  %s\n", n, score, device);
+			System.out.printf("%3d %4.2f  %s %s\n", n, score, device, text);
+			
 		}
 		return hits;
 	}
@@ -313,8 +315,13 @@ public class LuceneFileIndexBuilderImpl implements LuceneFileIndexBuilder {
 			// Search indexed contents using search term
 			TopDocs deviceDocs = luceneFileIndexBuilderImpl.searchByDevice("device", "Twitter for iPhone");
 
+			TopDocs queryDocs = luceneFileIndexBuilderImpl.searchByTermQuery("text", "@Marvel_thot No it's a woman's issue and m*n have no place in it.");
+
 			// Total found documents
 			System.out.println("SearchByDevice Total Results :: " + deviceDocs.totalHits);
+			
+			//Total foudn queries
+			System.out.println("SearchByQuery total results :: " + queryDocs.totalHits);
 
 			// Let's print out the path of files which have searched term
 			for (ScoreDoc sd : deviceDocs.scoreDocs) {

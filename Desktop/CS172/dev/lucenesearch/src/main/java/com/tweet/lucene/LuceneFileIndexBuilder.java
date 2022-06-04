@@ -8,7 +8,7 @@ import org.json.simple.parser.ParseException;
 
 public interface LuceneFileIndexBuilder {
 	public static final String docsPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/data";
-	public static final String indexPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/index";
+	public static final String indexPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/data";
 
 	IndexSearcher createFileIndex(String docsPath) throws IOException, ParseException;
 	

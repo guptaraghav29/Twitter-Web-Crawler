@@ -8,6 +8,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
+import org.apache.lucene.document.Document;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.TotalHits;
 import org.json.simple.parser.ParseException;
@@ -50,7 +51,12 @@ public class LuceneSearchWebController {
 			IndexSearcher searcher = luceneFileIndexBuilder.createFileIndex(LuceneFileIndexBuilder.indexPath); 
 			logger.info("Device String: " + tweet.getDevice());
 			
+
 			TopDocs topDocs = luceneFileIndexBuilder.searchByDevice("device", tweet.getDevice());
+			
+			logger.info("Tweet text: " + tweet.getText());
+			
+
 			//Thread.sleep(5000);
 			long totalHitsVal = topDocs.totalHits.value;
 			logger.info("TopDocs Total Hits: " + topDocs.totalHits);
@@ -60,6 +66,19 @@ public class LuceneSearchWebController {
 			model.addAttribute("totalHits", totalHitsVal);
 			model.addAttribute("topDocs", topDocs);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
+			List<Tweet> tweets = new ArrayList<Tweet>();
+			for(ScoreDoc scoreDoc : scoreDocs) {
+				int docId = scoreDoc.doc;
+				Document d = searcher.doc(docId);
+				Tweet aTweet = new Tweet();
+				aTweet.setId(docId);
+				aTweet.setDevice(d.get("device"));
+				aTweet.setText(d.get("text"));
+				aTweet.setScore(scoreDoc.score);
+				tweets.add(aTweet);
+
+			}
+			model.addAttribute("tweets", tweets);
 			model.addAttribute("scoreDocs", scoreDocs);
 		} catch (Exception e) { // TODO
 			logger.error(e.getMessage());
@@ -73,23 +92,6 @@ public class LuceneSearchWebController {
 
 	@GetMapping("/searchresult")
 	public String searchResult(Model model) {
-
-		Tweet tweet = (Tweet) model.getAttribute("tweet");
-		logger.info("Device string : " + tweet.getDevice());
-		try {
-			TopDocs topDocs = luceneFileIndexBuilder.searchByDevice("device", tweet.getDevice());
-			logger.debug("total Hits: " + topDocs.totalHits);
-			model.addAttribute("topDocs", topDocs);
-			long totalHits = topDocs.totalHits.value;
-			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-			model.addAttribute("totalHits", totalHits);
-			model.addAttribute("scoreDocs", scoreDocs);
-
-
-			model.addAttribute("scoreDocs", scoreDocs);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
 
 		return "searchresult.html";
 	}

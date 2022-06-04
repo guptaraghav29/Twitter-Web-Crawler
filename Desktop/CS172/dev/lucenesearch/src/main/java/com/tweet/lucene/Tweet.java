@@ -9,9 +9,12 @@ public class Tweet {
 	private long likes;
 	private long dislikes;
 	private long totalHits;
+	private float score;
 	public long getTotalHits() {
 		return totalHits;
 	}
+
+	
 	public void setTotalHits(long totalHits) {
 		this.totalHits = totalHits;
 	}
@@ -36,6 +39,9 @@ public class Tweet {
 	public long getDislikes() {
 		return dislikes;
 	}
+	public float getScore() {
+		return score;
+	}
 	public void setId(long id) {
 		this.id = id;
 	}
@@ -56,6 +62,9 @@ public class Tweet {
 	}
 	public void setDislikes(long dislikes) {
 		this.dislikes = dislikes;
+	}
+	public void setScore(float score) {
+		this.score = score;
 	}
 	
 }
