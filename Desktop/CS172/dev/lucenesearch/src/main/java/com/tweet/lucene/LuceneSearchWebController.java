@@ -1,35 +1,43 @@
 package com.tweet.lucene;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.servlet.ServletContext;
-
+import org.apache.lucene.document.Document;
 import org.apache.lucene.search.IndexSearcher;
 import org.apache.lucene.search.ScoreDoc;
-import org.apache.lucene.document.Document;
 import org.apache.lucene.search.TopDocs;
-import org.apache.lucene.search.TotalHits;
 import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
+import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.ResponseStatus;
+
+import javax.servlet.ServletContext;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class LuceneSearchWebController {
 
 	@Autowired
+	private Environment env;
 	private LuceneFileIndexBuilder luceneFileIndexBuilder;
+	private LuceneIndexSearcher indexSearcher;
+
+	public LuceneSearchWebController() {
+		luceneFileIndexBuilder = new LuceneFileIndexBuilderImpl();
+
+		try {
+			IndexSearcher searcher = luceneFileIndexBuilder.createFileIndex("index");
+			indexSearcher = new LuceneIndexSearcherImpl(searcher);
+		} catch (IOException | ParseException e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Autowired
 	private ServletContext context;
@@ -47,12 +55,9 @@ public class LuceneSearchWebController {
 
 		try { 
 			//String indexPath = context.getRealPath(LuceneFileIndexBuilder.indexPath);
-			logger.info("index path: " + LuceneFileIndexBuilder.indexPath);
-			IndexSearcher searcher = luceneFileIndexBuilder.createFileIndex(LuceneFileIndexBuilder.indexPath); 
 			logger.info("Device String: " + tweet.getDevice());
-			
 
-			TopDocs topDocs = luceneFileIndexBuilder.searchByDevice("device", tweet.getDevice());
+			TopDocs topDocs = indexSearcher.searchByText(tweet.getDevice());
 			
 			logger.info("Tweet text: " + tweet.getText());
 			
@@ -66,14 +71,15 @@ public class LuceneSearchWebController {
 			model.addAttribute("totalHits", totalHitsVal);
 			model.addAttribute("topDocs", topDocs);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
-			List<Tweet> tweets = new ArrayList<Tweet>();
+			List<Tweet> tweets = new ArrayList<>();
 			for(ScoreDoc scoreDoc : scoreDocs) {
 				int docId = scoreDoc.doc;
-				Document d = searcher.doc(docId);
+				Document indexedDoc = indexSearcher.getIndexedDocument(docId);
+				Document fullDoc = luceneFileIndexBuilder.retrieveFullDocument(indexedDoc);
 				Tweet aTweet = new Tweet();
 				aTweet.setId(docId);
-				aTweet.setDevice(d.get("device"));
-				aTweet.setText(d.get("text"));
+				aTweet.setDevice(fullDoc.get("device"));
+				aTweet.setText(fullDoc.get("text"));
 				aTweet.setScore(scoreDoc.score);
 				tweets.add(aTweet);
 
