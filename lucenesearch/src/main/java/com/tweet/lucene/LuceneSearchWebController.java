@@ -68,6 +68,14 @@ public class LuceneSearchWebController {
 			logger.info("TopDocs Total Hits: " + totalHitsVal);
 			//String totalHits = Long.toString(topDocs.totalHits.value);
 			//logger.debug("Total Hits: " + totalHits);
+
+			//if 0 result, serch in id field
+			if (totalHitsVal == 0) {
+				topDocs = indexSearcher.searchById(Long.parseLong(tweet.getDevice()));
+				totalHitsVal = topDocs.totalHits.value;
+			}
+
+			logger.info("TopDocs Total Hits: " + totalHitsVal);
 			model.addAttribute("totalHits", totalHitsVal);
 			model.addAttribute("topDocs", topDocs);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
@@ -76,6 +84,7 @@ public class LuceneSearchWebController {
 				int docId = scoreDoc.doc;
 				Document indexedDoc = indexSearcher.getIndexedDocument(docId);
 				Document fullDoc = luceneFileIndexBuilder.retrieveFullDocument(indexedDoc);
+				//logger.info("print doc: " + fullDoc.toString());
 				Tweet aTweet = new Tweet();
 				aTweet.setId(docId);
 				aTweet.setDevice(fullDoc.get("device"));

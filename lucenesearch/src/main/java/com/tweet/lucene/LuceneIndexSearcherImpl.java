@@ -15,6 +15,9 @@ import org.apache.lucene.search.ScoreDoc;
 import org.apache.lucene.search.TermQuery;
 import org.apache.lucene.search.TopDocs;
 import org.apache.lucene.search.WildcardQuery;
+import org.apache.lucene.document.LongPoint;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class LuceneIndexSearcherImpl implements LuceneIndexSearcher {
     private final IndexSearcher searcher;
@@ -23,6 +26,8 @@ public class LuceneIndexSearcherImpl implements LuceneIndexSearcher {
     public LuceneIndexSearcherImpl(final IndexSearcher searcher) {
         this.searcher = searcher;
     }
+
+    Logger logger = LoggerFactory.getLogger(LuceneIndexSearcherImpl.class);
 
     @Override
     public int getMaxResults() {
@@ -41,13 +46,15 @@ public class LuceneIndexSearcherImpl implements LuceneIndexSearcher {
 
     @Override
     public TopDocs searchById(long id) throws Exception {
-        Query query = new QueryParser("id", new StandardAnalyzer()).parse(Long.toString(id));
-
+        QueryParser parser = new QueryParser("", new StandardAnalyzer());
+        Query query = LongPoint.newRangeQuery("id", id, id);
+        logger.info("ID is: " + id);
         TopDocs topDocs = searcher.search(query, maxResults);
-        List<Document> documents = new ArrayList<>();
-        for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
-            documents.add(searcher.doc(scoreDoc.doc));
-        }
+        logger.info("TopDocs Hits for ID: " + topDocs);
+        //List<Document> documents = new ArrayList<>();
+        //for (ScoreDoc scoreDoc : topDocs.scoreDocs) {
+        //    documents.add(searcher.doc(scoreDoc.doc));
+        //}
 
         return topDocs;
     }
