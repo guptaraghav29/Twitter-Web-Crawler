@@ -47,9 +47,8 @@ public class LuceneFileIndexBuilderImpl implements LuceneFileIndexBuilder {
 	private Analyzer analyzer;
 
 	private IndexWriter indexWriter = null;
-
-	public static final String docsPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/data";
-	public static final String indexPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/index";
+	public static final String docsPath = "/Users/raghavgupta/Desktop/CS172Project/Desktop/CS172/dev/lucenesearch/data";
+	public static final String indexPath = "/Users/raghavgupta/Desktop/CS172Project/Desktop/CS172/dev/lucenesearch/index";
 	final Path docDir = Paths.get(docsPath);
 
 	public LuceneFileIndexBuilderImpl() throws IOException {

@@ -7,8 +7,8 @@ import org.apache.lucene.search.TopDocs;
 import org.json.simple.parser.ParseException;
 
 public interface LuceneFileIndexBuilder {
-	public static final String docsPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/data";
-	public static final String indexPath = "/Users/rohanbehera/Desktop/CS172/dev/lucenesearch/data";
+	public static final String docsPath = "/Users/raghavgupta/Desktop/CS172Project/Desktop/CS172/dev/lucenesearch/data";
+	public static final String indexPath = "/Users/raghavgupta/Desktop/CS172Project/Desktop/CS172/dev/lucenesearch/index";
 
 	IndexSearcher createFileIndex(String docsPath) throws IOException, ParseException;
 	
