@@ -19,6 +19,7 @@
 
             console.log("Form submitted!")
             console.log("Value of result (Aka query): " + document.getElementById('query'));
+            console.log("Value of result 2 (Aka query2): " + document.getElementById('query2'));
 
         }
     </script>
@@ -37,12 +38,12 @@
         <form action="#" th:action="@{/home}" th:object="${tweet}" method="post" id="form" onsubmit="handleSubmit()">
 
             <div align="center" class="form-group">
-                <label for="device">Try searching for any tweet by query, id, or device name! </label> 
-				<input class="input-group" placeholder="Search for anything!" id="query" type="text" th:field="*{device}" />
+                <h4 for="device">Try searching for any tweet by query! </h4> 
+				<input class="input-group" placeholder="Search for anything by query!" id="query" type="text" th:field="*{device}" />
                 <ul>
                     <li th:each="err : ${#fields.errors('device')}" th:text="${err}" class="error" />
                 </ul>
-            </div>
+
             <div align="center" class="form-group">
                 <input type="submit" class="btn btn-primary" value="Submit" />
                 <input type="reset" class="btn btn-primary" value="Reset" />
