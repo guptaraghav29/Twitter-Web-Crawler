@@ -1,4 +1,4 @@
-# CS172 Project 
+# CS172 Project Phase 1 
 
 
 ## Setup
